@@ -1,4 +1,8 @@
 {
+	"engines": {
+		"node": "^20.13.1",
+		"npm": "^10.5.2"
+	},
 	"scripts": {
 		"make-pages": "node scripts/make-pages.cjs"
 	},
