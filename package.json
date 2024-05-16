@@ -1,5 +1,8 @@
 {
-  "dependencies": {
-    "ejs": "^3.1.10"
-  }
+	"scripts": {
+		"make-pages": "node scripts/make-pages.cjs"
+	},
+	"dependencies": {
+		"ejs": "^3.1.10"
+	}
 }
