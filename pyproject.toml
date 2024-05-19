@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "plotpot"
+version = "0.0.0"
+description = ""
+authors = ["plotpot-dev <169992072+plotpot-dev@users.noreply.github.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+Jinja2 = "^3.1.4"
+Telethon = "^1.35.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
