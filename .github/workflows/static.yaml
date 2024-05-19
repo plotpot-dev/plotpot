@@ -24,20 +24,33 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
         with:
-          node-version: "20"
+          python-version: "3.12"
+
+      - name: Install Poetry
+        run: curl -sSL https://install.python-poetry.org | python3 -
+
+      - name: Configure Poetry
+        run: |
+          poetry config virtualenvs.in-project true
+
       - name: Install dependencies
-        run: npm install
+        run: poetry install
+
       - name: Generate HTML
-        run: npm run make-pages
+        run: poetry run python scripts/make-pages.py
+
       - name: Setup Pages
         uses: actions/configure-pages@v5
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: "./docs"
+
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
