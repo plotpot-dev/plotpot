@@ -40,7 +40,7 @@ def generate_html_files():
     for token in tokens:
         token_html = token_template.render(token)
         write_html_file(token_page_path(token["ticker"]), token_html)
-        print(f"HTML file {token['ticker']}.html has been generated.")
+        print(f"HTML file {token["ticker"]}.html has been generated.")
 
     # Generate index page
     index_html = index_template.render(tokens=tokens)
