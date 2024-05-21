@@ -1,5 +1,6 @@
 import json
 import os
+from typing import Any
 
 from jinja2 import Environment, FileSystemLoader
 
@@ -13,7 +14,7 @@ token_template_path = os.path.join(TEMPLATES_DIR, "token.html.jinja")
 index_page_path = os.path.join(STATIC_DIR, "index.html")
 
 
-def token_page_path(ticker):
+def token_page_path(ticker: str) -> str:
     return os.path.join(STATIC_DIR, f"{ticker}.html")
 
 
@@ -21,17 +22,17 @@ def token_page_path(ticker):
 env = Environment(loader=FileSystemLoader(TEMPLATES_DIR))
 
 
-def read_json_file(path):
+def read_json_file(path: str) -> Any:
     with open(path, "r", encoding="utf-8") as file:
         return json.load(file)
 
 
-def write_html_file(path, content):
+def write_html_file(path: str, content: str) -> None:
     with open(path, "w", encoding="utf-8") as file:
         file.write(content)
 
 
-def generate_html_files():
+def generate_html_files() -> None:
     tokens = read_json_file(tokens_data_path)
     token_template = env.get_template(os.path.basename(token_template_path))
     index_template = env.get_template(os.path.basename(index_template_path))
