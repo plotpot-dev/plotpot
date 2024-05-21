@@ -6,7 +6,7 @@ from jinja2 import Environment, FileSystemLoader
 
 DATA_DIR = "data"
 TEMPLATES_DIR = "templates"
-STATIC_DIR = "docs"
+STATIC_DIR = "pages"
 
 tokens_data_path = os.path.join(DATA_DIR, "tokens.json")
 index_template_path = os.path.join(TEMPLATES_DIR, "index.html.jinja")
