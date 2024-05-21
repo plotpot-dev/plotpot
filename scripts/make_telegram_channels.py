@@ -1,5 +1,6 @@
 import base64
 import json
+import logging
 import os
 import sys
 from io import BytesIO
@@ -14,11 +15,12 @@ from telethon.sync import TelegramClient
 from telethon.tl.types import Channel, InputChatUploadedPhoto
 
 load_dotenv()
+logging.basicConfig(level=logging.DEBUG)
 
 DATA_DIR = "data"
 tokens_data_path = os.path.join(DATA_DIR, "tokens.json")
-# TELEGRAM_PRODUCTION_IP = "149.154.167.50"
-TELEGRAM_TEST_IP = "149.154.167.40"
+TELEGRAM_IP = "149.154.167.50" # production
+# TELEGRAM_IP = "149.154.167.40" # test
 TELEGRAM_PORT = 80
 TELEGRAM_DC_ID = 2
 
@@ -124,15 +126,17 @@ def create_channels() -> None:
     tokens = read_json_file(tokens_data_path)
 
     with TelegramClient(StringSession(session), api_id, api_hash) as client:
+        me = client.get_me()
+        print(f"Me: {me.stringify()}")
         if session is None:
-            client.session.set_dc(TELEGRAM_DC_ID, TELEGRAM_TEST_IP, TELEGRAM_PORT)
+            client.session.set_dc(TELEGRAM_DC_ID, TELEGRAM_IP, TELEGRAM_PORT)
             session_str = client.session.save()
             print("Session created!", file=sys.stderr)
             print(
                 "Add this to your .env file or otherwise pass via the environment to skip manual verification in future:",
                 file=sys.stderr,
             )
-            print(f"SESSION={session_str}", file=sys.stderr)
+            print(f"TELEGRAM_SESSION={session_str}", file=sys.stderr)
 
         for token in tokens:
             title = f"{token["name"]} (${token["ticker"]})"
