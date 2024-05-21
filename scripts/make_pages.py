@@ -223,6 +223,7 @@ def generate_html_files() -> None:
         background_color, text_color = generate_readable_color_pair()
         token["background_color"] = background_color
         token["text_color"] = text_color
+
         token_html = token_template.render(token)
         write_html_file(token_page_path(token["ticker"]), token_html)
         print(f"HTML file {token["ticker"]}.html has been generated.")
