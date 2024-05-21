@@ -1,4 +1,3 @@
-import base64
 import json
 import logging
 import os
@@ -15,7 +14,7 @@ from telethon.sync import TelegramClient
 from telethon.tl.types import Channel, InputChatUploadedPhoto
 
 load_dotenv()
-logging.basicConfig(level=logging.DEBUG)
+# logging.basicConfig(level=logging.DEBUG)
 
 DATA_DIR = "data"
 tokens_data_path = os.path.join(DATA_DIR, "tokens.json")
@@ -35,19 +34,6 @@ def write_json_file(path: str, tokens: list[Any]) -> None:
         return json.dump(tokens, file, indent="\t")
 
 
-def create_jpg(data: str) -> BytesIO:
-    """
-    Expects a browser-compatible base64-encoded string prefixed with the following header:
-    "data:image/jpeg;base64,"
-    """
-    _, encoded = data.split(",", 1)
-    decoded = base64.b64decode(encoded)
-    # Convert to BytesIO
-    file = BytesIO(decoded)
-    file.name = "photo.jpg"
-    return file
-
-
 def create_channel(client: TelegramClient, title: str, about: str) -> str:
     request = channels.CreateChannelRequest(title=title, about=about, broadcast=True)
     result = client(request)
@@ -62,8 +48,10 @@ def create_channel(client: TelegramClient, title: str, about: str) -> str:
     return channel
 
 
-def set_channel_photo(client: TelegramClient, channel: Channel, photo: BytesIO) -> None:
-    uploaded_file = client.upload_file(photo)
+def set_channel_photo(client: TelegramClient, channel: Channel, ticker: str) -> None:
+    filename = f"{ticker}.jpg"
+    photo_path = os.path.join("pages", "static", filename)
+    uploaded_file = client.upload_file(photo_path)
     request = channels.EditPhotoRequest(
         channel=channel, photo=InputChatUploadedPhoto(uploaded_file)
     )
@@ -126,8 +114,6 @@ def create_channels() -> None:
     tokens = read_json_file(tokens_data_path)
 
     with TelegramClient(StringSession(session), api_id, api_hash) as client:
-        me = client.get_me()
-        print(f"Me: {me.stringify()}")
         if session is None:
             client.session.set_dc(TELEGRAM_DC_ID, TELEGRAM_IP, TELEGRAM_PORT)
             session_str = client.session.save()
@@ -144,9 +130,7 @@ def create_channels() -> None:
             # telegram_admin = token["telegram_admin"]
 
             channel = create_channel(client, title, about)
-
-            photo = create_jpg(token["image_src"])
-            set_channel_photo(client, channel, photo)
+            set_channel_photo(client, channel, token["ticker"])
 
             invite_link = create_invite_link(client, channel)
             token["telegram_link"] = invite_link
