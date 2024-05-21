@@ -110,14 +110,15 @@ def create_invite_link(client: TelegramClient, channel: Channel) -> str:
 
 
 def create_channels() -> None:
-    app_username = os.getenv("TELEGRAM_APP_USERNAME")
     api_id = os.getenv("TELEGRAM_API_ID")
     api_hash = os.getenv("TELEGRAM_API_HASH")
-    telegram_password = os.getenv("TELEGRAM_TELEGRAM_PASSWORD")
+    # telegram_password = os.getenv("TELEGRAM_PASSWORD")
     session = os.getenv("TELEGRAM_SESSION")
-    if None in [app_username, api_id, api_hash, telegram_password]:
+    # if None in [api_id, api_hash, telegram_password]:
+    if None in [api_id, api_hash]:
         raise ValueError(
-            "Must set env variables TELEGRAM_APP_USERNAME, TELEGRAM_API_ID, TELEGRAM_API_HASH, TELEGRAM_PASSWORD"
+            # "Must set env variables TELEGRAM_API_ID, TELEGRAM_API_HASH, TELEGRAM_PASSWORD"
+            "Must set env variables TELEGRAM_API_ID, TELEGRAM_API_HASH"
         )
 
     tokens = read_json_file(tokens_data_path)
