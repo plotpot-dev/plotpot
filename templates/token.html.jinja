@@ -4,7 +4,7 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>
-		{{ ticker }} | {{ name }}
+		${{ ticker }} | {{ name }}
 	</title>
 	<style>
 		body {
@@ -63,7 +63,9 @@
 	<header>
 		<a style="text-decoration: line-through;">BUY</a>
 		<a href="{{ telegram_link }}" target="_blank">TELEGRAM</a>
-		<a href="{{ twitter_link }}" target="_blank">TWITTER</a>
+		{% if twitter_link %}
+			<a href="{{ twitter_link }}" target="_blank">TWITTER</a>
+		{% endif %}
 	</header>
 	<main>
 		<img src="{{ image_src }}" alt="{{ name }}">
