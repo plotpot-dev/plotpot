@@ -6,7 +6,7 @@ authors = ["plotpot-dev <169992072+plotpot-dev@users.noreply.github.com>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.12"
+python = "^3.9"
 Jinja2 = "^3.1.4"
 python-dotenv = "^1.0.1"
 Telethon = "^1.35.0"
