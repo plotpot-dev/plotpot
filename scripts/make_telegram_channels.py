@@ -2,7 +2,6 @@ import json
 import logging
 import os
 import sys
-from io import BytesIO
 from typing import Any
 
 from dotenv import load_dotenv
@@ -125,6 +124,10 @@ def create_channels() -> None:
             print(f"TELEGRAM_SESSION={session_str}", file=sys.stderr)
 
         for token in tokens:
+            if token["is_telegram_created"]:
+                print(f"Telegram channel exists, skipping: {token["ticker"]}")
+                continue
+
             title = f"{token["name"]} (${token["ticker"]})"
             about = token["description"]
             # telegram_admin = token["telegram_admin"]
@@ -134,10 +137,13 @@ def create_channels() -> None:
 
             invite_link = create_invite_link(client, channel)
             token["telegram_link"] = invite_link
+            token["is_telegram_created"] = True
+
+            print(f"Telegram channel for {token["ticker"]} created: {invite_link}")
+            write_json_file(tokens_data_path, tokens)
 
             # transfer_ownership(client, channel, telegram_admin, telegram_password)
 
-        write_json_file(tokens_data_path, tokens)
 
 
 if __name__ == "__main__":

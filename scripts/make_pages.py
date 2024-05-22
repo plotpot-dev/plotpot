@@ -177,6 +177,11 @@ def read_json_file(path: str) -> Any:
         return json.load(file)
 
 
+def write_json_file(path: str, tokens: list[Any]) -> None:
+    with open(path, "w", encoding="utf-8") as file:
+        return json.dump(tokens, file, indent="\t")
+
+
 def write_html_file(path: str, content: str) -> None:
     with open(path, "w", encoding="utf-8") as file:
         file.write(content)
@@ -220,13 +225,21 @@ def generate_html_files() -> None:
 
     # Generate individual token pages
     for token in tokens:
+        if token["is_html_created"]:
+            print(f"HTML file exists, skipping: {token["ticker"]}")
+            continue
+
         background_color, text_color = generate_readable_color_pair()
         token["background_color"] = background_color
         token["text_color"] = text_color
 
         token_html = token_template.render(token)
         write_html_file(token_page_path(token["ticker"]), token_html)
+        token["is_html_created"] = True
+
         print(f"HTML file {token["ticker"]}.html has been generated.")
+        write_json_file(tokens_data_path, tokens)
+
 
     # Generate index page
     index_html = index_template.render(tokens=tokens)
