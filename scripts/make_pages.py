@@ -205,7 +205,7 @@ def is_readable(bg_color: str, text_color: str) -> bool:
     return contrast_ratio(bg_luminance, text_luminance) >= 4.5  # WCAG recommended contrast ratio
 
 
-def generate_readable_color_pair():
+def generate_readable_color_pair() -> tuple[str, str]:
     while True:
         background_color = random.choice(css_color_codes)
         text_color = random.choice(css_color_codes)
