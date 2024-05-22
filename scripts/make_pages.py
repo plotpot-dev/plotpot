@@ -225,7 +225,7 @@ def generate_html_files() -> None:
 
     # Generate individual token pages
     for token in tokens:
-        if token["is_html_created"]:
+        if token.get("is_html_created"):
             print(f"HTML file exists, skipping: {token["ticker"]}")
             continue
 

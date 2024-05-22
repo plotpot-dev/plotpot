@@ -124,7 +124,7 @@ def create_channels() -> None:
             print(f"TELEGRAM_SESSION={session_str}", file=sys.stderr)
 
         for token in tokens:
-            if token["is_telegram_created"]:
+            if token.get("is_telegram_created"):
                 print(f"Telegram channel exists, skipping: {token["ticker"]}")
                 continue
 
