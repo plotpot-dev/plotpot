@@ -225,13 +225,11 @@ def generate_html_files() -> None:
 
     # Generate individual token pages
     for token in tokens:
-        if token.get("is_html_created"):
-            print(f"HTML file exists, skipping: {token["ticker"]}")
-            continue
+        if not token.get("is_html_created"):
+            background_color, text_color = generate_readable_color_pair()
+            token["background_color"] = background_color
+            token["text_color"] = text_color
 
-        background_color, text_color = generate_readable_color_pair()
-        token["background_color"] = background_color
-        token["text_color"] = text_color
 
         token_html = token_template.render(token)
         write_html_file(token_page_path(token["ticker"]), token_html)
